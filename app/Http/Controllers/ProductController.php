@@ -40,7 +40,6 @@ class ProductController extends Controller
                 'initial_quantity' => 'required|integer',
                 'id_bodega' => 'exists:bodegas,id',
                 'created_by' => 'required|exists:users,id',
-                'updated_by' => 'required|exists:users,id',
             ]);
 
             DB::beginTransaction();
@@ -56,8 +55,8 @@ class ProductController extends Controller
             $product->inventarios()->create([
                 'id_bodega' => $request->id_bodega ?? 1,
                 'cantidad' => $validatedData['initial_quantity'],
-                'created_by' => auth()->id() ?? $validatedData['created_by'],
-                'updated_by' => auth()->id() ?? $validatedData['updated_by'],
+                'created_by' => $validatedData['created_by'],
+                'updated_by' => null,
             ]);
 
             DB::commit();
