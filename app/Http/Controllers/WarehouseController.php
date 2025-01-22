@@ -44,7 +44,6 @@ class WarehouseController extends Controller
                 'id_responsable' => 'exists:users,id',
                 'estado' => 'integer|in:0,1',
                 'created_by' => 'required|exists:users,id',
-                'updated_by' => 'required|exists:users,id',
             ]);
 
             DB::beginTransaction();
@@ -54,7 +53,7 @@ class WarehouseController extends Controller
             $warehouse->id_responsable = $validatedData['id_responsable'];
             $warehouse->estado = $validatedData['estado'] ?? 1;
             $warehouse->created_by = $validatedData['created_by'];
-            $warehouse->updated_by = $validatedData['updated_by'];
+            $warehouse->updated_by = null;
             $warehouse->save();
 
             DB::commit();
