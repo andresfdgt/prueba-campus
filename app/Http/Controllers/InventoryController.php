@@ -13,16 +13,17 @@ class InventoryController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'producto_id' => 'required|exists:productos,id',
-                'bodega_id' => 'required|exists:bodegas,id',
-                'cantidad' => 'required|numeric|min:1',
+                'id_producto' => 'required|exists:productos,id',
+                'id_bodega' => 'required|exists:bodegas,id',
+                'cantidad' => 'required|numeric|min:0',
+                'created_by' => 'required|exists:users,id',
             ]);
 
             DB::beginTransaction();
 
             $inventario = Inventory::firstOrNew([
-                'producto_id' => $validatedData['producto_id'],
-                'bodega_id' => $validatedData['bodega_id'],
+                'id_producto' => $validatedData['id_producto'],
+                'id_bodega' => $validatedData['id_bodega'],
             ]);
 
             if ($inventario->exists) {
@@ -30,6 +31,9 @@ class InventoryController extends Controller
             } else {
                 $inventario->cantidad = $validatedData['cantidad'];
             }
+
+            $inventario->created_by = $validatedData['created_by'];
+            $inventario->updated_by = null;
 
             $inventario->save();
 
@@ -54,7 +58,7 @@ class InventoryController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'producto_id' => 'required|exists:productos,id',
+                'id_producto' => 'required|exists:productos,id',
                 'bodega_origen_id' => 'required|exists:bodegas,id',
                 'bodega_destino_id' => 'required|exists:bodegas,id|different:bodega_origen_id',
                 'cantidad' => 'required|numeric|min:1',
@@ -62,8 +66,8 @@ class InventoryController extends Controller
 
             return DB::transaction(function () use ($validatedData) {
                 $origen = Inventory::where([
-                    'producto_id' => $validatedData['producto_id'],
-                    'bodega_id' => $validatedData['bodega_origen_id'],
+                    'id_producto' => $validatedData['id_producto'],
+                    'id_bodega' => $validatedData['bodega_origen_id'],
                 ])->firstOrFail();
 
                 if ($origen->cantidad < $validatedData['cantidad']) {
@@ -71,8 +75,8 @@ class InventoryController extends Controller
                 }
 
                 $destino = Inventory::firstOrNew([
-                    'producto_id' => $validatedData['producto_id'],
-                    'bodega_id' => $validatedData['bodega_destino_id'],
+                    'id_producto' => $validatedData['id_producto'],
+                    'id_bodega' => $validatedData['bodega_destino_id'],
                 ]);
 
                 $origen->cantidad -= $validatedData['cantidad'];
@@ -86,7 +90,7 @@ class InventoryController extends Controller
                 $destino->save();
 
                 History::create([
-                    'producto_id' => $validatedData['producto_id'],
+                    'id_producto' => $validatedData['id_producto'],
                     'bodega_origen_id' => $validatedData['bodega_origen_id'],
                     'bodega_destino_id' => $validatedData['bodega_destino_id'],
                     'cantidad' => $validatedData['cantidad'],
