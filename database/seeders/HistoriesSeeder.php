@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class InventorySeeder extends Seeder
+class HistoriesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,24 +14,22 @@ class InventorySeeder extends Seeder
      */
     public function run()
     {
-        DB::table('inventarios')->insert([
+        DB::table('historiales')->insert([
             [
-                'id_bodega' => 1,
-                'id_producto' => 1,
-                'cantidad' => 100,
+                'cantidad' => 10,
+                'id_bogeda_origen' => 1,
+                'id_bodega_destino' => 2,
+                'id_inventario' => 1,
                 'created_by' => 1,
-                'updated_by' => 1,
                 'created_at' => now(),
-                'updated_at' => now(),
             ],
             [
-                'id_bodega' => 2,
-                'id_producto' => 2,
-                'cantidad' => 50,
+                'cantidad' => 5,
+                'id_bogeda_origen' => 2,
+                'id_bodega_destino' => 1,
+                'id_inventario' => 2,
                 'created_by' => 2,
-                'updated_by' => 2,
                 'created_at' => now(),
-                'updated_at' => now(),
             ],
         ]);
     }
