@@ -13,7 +13,7 @@ class CreateWarehousesTable extends Migration
      */
     public function up()
     {
-        Schema::create('warehouses', function (Blueprint $table) {
+        Schema::create('bodegas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 30);
             $table->unsignedBigInteger('id_responsable');
@@ -22,6 +22,8 @@ class CreateWarehousesTable extends Migration
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('id_responsable')->references('id')->on('usuarios');
         });
     }
 
@@ -32,6 +34,6 @@ class CreateWarehousesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('warehouses');
+        Schema::dropIfExists('bodegas');
     }
 }

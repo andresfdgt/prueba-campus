@@ -13,9 +13,18 @@ class CreateInventoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('inventories', function (Blueprint $table) {
+        Schema::create('inventarios', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_bodega');
+            $table->unsignedBigInteger('id_producto');
+            $table->integer('cantidad');
+            $table->unsignedBigInteger('created_by');
+            $table->unsignedBigInteger('updated_by');
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('id_bodega')->references('id')->on('bodegas');
+            $table->foreign('id_producto')->references('id')->on('productos');
         });
     }
 
@@ -26,6 +35,6 @@ class CreateInventoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inventories');
+        Schema::dropIfExists('inventarios');
     }
 }
