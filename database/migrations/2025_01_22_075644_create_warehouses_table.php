@@ -23,7 +23,7 @@ class CreateWarehousesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('id_responsable')->references('id')->on('usuarios');
+            $table->foreign('id_responsable')->references('id')->on('users');
         });
     }
 
