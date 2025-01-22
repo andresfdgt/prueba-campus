@@ -13,6 +13,26 @@ class Product extends Model
     protected $table = 'productos';
 
     protected $fillable = [
-        'nombre', 'descripcion', 'estado', 'created_by', 'updated_by'
+        'nombre',
+        'descripcion',
+        'estado',
+        'created_by',
+        'updated_by'
     ];
+
+    public function inventarios()
+    {
+        return $this->hasMany(Inventory::class, 'id_producto', 'id');
+    }
+
+    public function getTotalAttribute()
+    {
+        return $this->inventarios()->sum('cantidad');
+    }
+
+    public function scopeOrderByTotal($query, $direction = 'desc')
+    {
+        return $query->withSum('inventarios as total', 'cantidad')
+            ->orderBy('total', $direction);
+    }
 }
