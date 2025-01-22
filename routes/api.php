@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\WarehouseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +17,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('v1')->group(function () {
+    Route::prefix('warehouse')->group(function () {
+        Route::get('/', [WarehouseController::class, 'list']);
+        Route::get('/{id}', [WarehouseController::class, 'show']);
+        Route::post('/', [WarehouseController::class, 'store']);
+    });
+
+    Route::prefix('products')->group(function () {
+        Route::get('/', [ProductController::class, 'list']);
+        Route::get('/{id}', [ProductController::class, 'show']);
+        Route::post('/', [ProductController::class, 'store']);
+    });
+
+    Route::prefix('inventories')->group(function () {
+        Route::post('/', [InventoryController::class, 'store']);
+        Route::post('/move', [InventoryController::class, 'update']);
+    });
 });
