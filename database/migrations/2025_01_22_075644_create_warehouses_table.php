@@ -18,7 +18,7 @@ class CreateWarehousesTable extends Migration
             $table->string('nombre', 30);
             $table->unsignedBigInteger('id_responsable');
             $table->tinyInteger('estado')->default(1);
-            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
             $table->softDeletes();

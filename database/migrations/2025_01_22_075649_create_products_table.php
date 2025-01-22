@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('nombre', 50);
             $table->string('descripcion', 300);
             $table->tinyInteger('estado')->default(1);
-            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
             $table->softDeletes();

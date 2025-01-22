@@ -19,7 +19,7 @@ class CreateInventoriesTable extends Migration
             $table->unsignedBigInteger('id_producto');
             $table->integer('cantidad');
             $table->unsignedBigInteger('created_by');
-            $table->unsignedBigInteger('updated_by');
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
