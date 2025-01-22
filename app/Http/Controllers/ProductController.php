@@ -49,14 +49,14 @@ class ProductController extends Controller
             $product->descripcion = $validatedData['descripcion'];
             $product->estado = $validatedData['estado'] ?? 1;
             $product->created_by = $validatedData['created_by'];
-            $product->updated_by = $validatedData['updated_by'];
+            $product->updated_by = $validatedData['created_by'];
             $product->save();
 
             $product->inventarios()->create([
                 'id_bodega' => $request->id_bodega ?? 1,
                 'cantidad' => $validatedData['initial_quantity'],
                 'created_by' => $validatedData['created_by'],
-                'updated_by' => null,
+                'updated_by' => $validatedData['created_by'],
             ]);
 
             DB::commit();

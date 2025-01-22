@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\DB;
 
 class InventoryController extends Controller
 {
+    /**
+     * store
+     *
+     * @param  mixed $request {id_producto, id_bodega, cantidad, created_by}
+     * @return void
+     */
     public function store(Request $request)
     {
         try {
@@ -33,7 +39,7 @@ class InventoryController extends Controller
             }
 
             $inventario->created_by = $validatedData['created_by'];
-            $inventario->updated_by = null;
+            $inventario->updated_by = $validatedData['created_by'];
 
             $inventario->save();
 
@@ -54,6 +60,12 @@ class InventoryController extends Controller
         }
     }
 
+    /**
+     * trasladar
+     *
+     * @param  mixed $request {id_producto, bodega_origen_id, bodega_destino_id, cantidad, created_by}
+     * @return void
+     */
     public function trasladar(Request $request)
     {
         try {
@@ -62,6 +74,7 @@ class InventoryController extends Controller
                 'bodega_origen_id' => 'required|exists:bodegas,id',
                 'bodega_destino_id' => 'required|exists:bodegas,id|different:bodega_origen_id',
                 'cantidad' => 'required|numeric|min:1',
+                'created_by' => 'required|exists:users,id',
             ]);
 
             return DB::transaction(function () use ($validatedData) {
