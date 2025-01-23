@@ -21,6 +21,8 @@ class WarehouseController extends Controller
             return response()->json(["message" => "Warehouse not found"], 404);
         }
 
+        $warehouse->responsable = $warehouse->responsable;
+
         return response()->json($warehouse);
     }
 
