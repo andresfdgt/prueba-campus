@@ -15,4 +15,14 @@ class Inventory extends Model
     protected $fillable = [
         'id_bodega', 'id_producto', 'cantidad', 'created_by', 'updated_by'
     ];
+
+    public function producto()
+    {
+        return $this->belongsTo(Product::class, 'id_producto');
+    }
+
+    public function bodega()
+    {
+        return $this->belongsTo(Warehouse::class, 'id_bodega');
+    }
 }
