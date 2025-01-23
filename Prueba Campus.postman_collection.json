@@ -19,7 +19,8 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});"
+									"});",
+                                    ""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -385,13 +386,13 @@
 							]
 						},
 						"url": {
-							"raw": "{{base_url}}/inventories/move",
+							"raw": "{{base_url}}/inventories/transfer",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"inventories",
-								"move"
+								"transfer"
 							]
 						},
 						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
