@@ -63,16 +63,16 @@ class InventoryController extends Controller
     /**
      * trasladar
      *
-     * @param  mixed $request {id_producto, bodega_origen_id, bodega_destino_id, cantidad, created_by}
+     * @param  mixed $request {id_producto, id_bodega_origen, id_bodega_destino, cantidad, created_by}
      * @return void
      */
-    public function trasladar(Request $request)
+    public function move(Request $request)
     {
         try {
             $validatedData = $request->validate([
                 'id_producto' => 'required|exists:productos,id',
-                'bodega_origen_id' => 'required|exists:bodegas,id',
-                'bodega_destino_id' => 'required|exists:bodegas,id|different:bodega_origen_id',
+                'id_bodega_origen' => 'required|exists:bodegas,id',
+                'id_bodega_destino' => 'required|exists:bodegas,id|different:id_bodega_origen',
                 'cantidad' => 'required|numeric|min:1',
                 'created_by' => 'required|exists:users,id',
             ]);
@@ -80,19 +80,22 @@ class InventoryController extends Controller
             return DB::transaction(function () use ($validatedData) {
                 $origen = Inventory::where([
                     'id_producto' => $validatedData['id_producto'],
-                    'id_bodega' => $validatedData['bodega_origen_id'],
+                    'id_bodega' => $validatedData['id_bodega_origen'],
                 ])->firstOrFail();
 
                 if ($origen->cantidad < $validatedData['cantidad']) {
-                    abort(400, 'Cantidad insuficiente en la bodega de origen');
+                    return response()->json([
+                        'message' => 'Not enough inventory in the source warehouse',
+                    ], 400);
                 }
 
                 $destino = Inventory::firstOrNew([
                     'id_producto' => $validatedData['id_producto'],
-                    'id_bodega' => $validatedData['bodega_destino_id'],
+                    'id_bodega' => $validatedData['id_bodega_destino'],
                 ]);
 
                 $origen->cantidad -= $validatedData['cantidad'];
+                $origen->updated_by = $validatedData['created_by'];
                 $origen->save();
 
                 if ($destino->exists) {
@@ -100,13 +103,16 @@ class InventoryController extends Controller
                 } else {
                     $destino->cantidad = $validatedData['cantidad'];
                 }
+                $destino->created_by = $validatedData['created_by'];
+                $destino->updated_by = $validatedData['created_by'];
                 $destino->save();
 
                 History::create([
-                    'id_producto' => $validatedData['id_producto'],
-                    'bodega_origen_id' => $validatedData['bodega_origen_id'],
-                    'bodega_destino_id' => $validatedData['bodega_destino_id'],
                     'cantidad' => $validatedData['cantidad'],
+                    'id_bodega_origen' => $validatedData['id_bodega_origen'],
+                    'id_bodega_destino' => $validatedData['id_bodega_destino'],
+                    'id_inventario' => $destino->id,
+                    'created_by' => $validatedData['created_by'],
                 ]);
 
                 return response()->json([
