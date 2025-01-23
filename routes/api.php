@@ -32,6 +32,6 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('inventories')->group(function () {
         Route::post('/', [InventoryController::class, 'store']);
-        Route::post('/move', [InventoryController::class, 'update']);
+        Route::post('/move', [InventoryController::class, 'move']);
     });
 });
