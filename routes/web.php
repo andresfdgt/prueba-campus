@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WarehouseController;
 use Illuminate\Support\Facades\Route;
@@ -21,4 +22,5 @@ Route::get('/', function () {
 
 Route::get('/warehouse', [WarehouseController::class, 'index']);
 Route::get('/products', [ProductController::class, 'index']);
+Route::get('/inventories', [InventoryController::class, 'index']);
 
