@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\DB;
 
 class InventoryController extends Controller
 {
+    public function index()
+    {
+        return view('inventories');
+    }
+
     /**
      * store
      *
@@ -66,7 +71,7 @@ class InventoryController extends Controller
      * @param  mixed $request {id_producto, id_bodega_origen, id_bodega_destino, cantidad, created_by}
      * @return void
      */
-    public function move(Request $request)
+    public function transfer(Request $request)
     {
         try {
             $validatedData = $request->validate([

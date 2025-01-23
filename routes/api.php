@@ -33,7 +33,7 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('inventories')->group(function () {
         Route::post('/', [InventoryController::class, 'store']);
-        Route::post('/move', [InventoryController::class, 'move']);
+        Route::post('/transfer', [InventoryController::class, 'transfer']);
     });
 
     Route::get('/users', [UserController::class, 'list']);
