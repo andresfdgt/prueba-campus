@@ -55,7 +55,10 @@
                         </div>
                         {{-- TODO Campo creado para simular el usuario que crea el producto, esto debido a que no hay autenticación --}}
                         <div class="form-group">
-                            <label for="createdBy">Creado por</label>
+                            <div class="d-flex justify-content-between">
+                                <label for="createdBy">Creado por</label>
+                                <span class="text-danger pr-2" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Este campo es utilizado para simular el usuario autenticado">&lowast;</span>
+                            </div>
                             <select class="form-control" id="createdBy" name="created_by" required>
                                 <option value="">Seleccione un usuario</option>
                             </select>
