@@ -21,6 +21,11 @@ class ProductController extends Controller
             return response()->json(["message" => "Product not found"], 404);
         }
 
+        $product->inventarios = $product->inventarios;
+        foreach ($product->inventarios as $inventory) {
+            $inventory->bodega = $inventory->bodega;
+        }
+
         return response()->json($product);
     }
 
