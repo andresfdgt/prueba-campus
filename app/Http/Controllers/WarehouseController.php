@@ -10,7 +10,7 @@ class WarehouseController extends Controller
 {
     public function index()
     {
-        return view('warehouse.index');
+        return view('warehouse');
     }
 
     public function show($id)
