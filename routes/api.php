@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('v1')->group(function () {
-    Route::prefix('warehouse')->group(function () {
+    Route::prefix('warehouses')->group(function () {
         Route::get('/', [WarehouseController::class, 'list']);
         Route::get('/{id}', [WarehouseController::class, 'show']);
         Route::post('/', [WarehouseController::class, 'store']);
