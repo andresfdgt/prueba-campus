@@ -17,7 +17,7 @@ class HistoriesSeeder extends Seeder
         DB::table('historiales')->insert([
             [
                 'cantidad' => 10,
-                'id_bogeda_origen' => 1,
+                'id_bodega_origen' => 1,
                 'id_bodega_destino' => 2,
                 'id_inventario' => 1,
                 'created_by' => 1,
@@ -25,7 +25,7 @@ class HistoriesSeeder extends Seeder
             ],
             [
                 'cantidad' => 5,
-                'id_bogeda_origen' => 2,
+                'id_bodega_origen' => 2,
                 'id_bodega_destino' => 1,
                 'id_inventario' => 2,
                 'created_by' => 2,
